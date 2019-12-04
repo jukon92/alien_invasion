@@ -1,6 +1,6 @@
 import sys
 import pygame
-
+#test gita
 
 def check_events(ship):
     #reakcja na zdarzenia generowane przez klawiature i mysz
