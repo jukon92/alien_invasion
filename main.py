@@ -15,7 +15,7 @@ def run_game():
     screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
     pygame.display.set_caption("Inwazja obcych")
 
-    ship=Ship(screen)
+    ship=Ship(ai_settings, screen)
 
 
     while True:
