@@ -38,6 +38,9 @@ def run_game():
         #poruszanie, kasowanie pociskow
         gf.update_bullets(bullets)
 
+        #poruszanie obcych
+        gf.update_aliens(ai_settings, aliens)
+
         #aktualizacja i wyswietlenie ekranu
         gf.update_screen(ai_settings, screen, ship, aliens, bullets)
 

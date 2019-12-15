@@ -4,6 +4,8 @@ from bullet import Bullet
 from alien import Alien
 #test gita
 
+
+#przyciski
 def check_events(ai_settings, screen, ship, bullets):
     #reakcja na zdarzenia generowane przez klawiature i mysz
 
@@ -34,6 +36,8 @@ def check_keyup_events(event, ship):
     elif event.key == pygame.K_LEFT:
         ship.moving_left = False
 
+
+#pociski
 def fire_bullet(ai_settings, screen, ship, bullets):
     """wystrzelenie pocusku, jesli nie przekroczono limitu"""
     if len(bullets) <= ai_settings.bullets_allowed:
@@ -49,10 +53,13 @@ def update_bullets(bullets):
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
 
+
+#tworzenie floty
 def create_fleet(ai_settings, screen, ship, aliens):
     """utworzenie pelnej floty obcych"""
     #odlegosc miedzy obcymi jest rowna ich szerokosci
     alien = Alien(ai_settings, screen)
+    #"siatka" statkow obcych, ile wierszy i kolumn
     number_aliens_x = get_number_aliens_x(ai_settings, alien.rect.width)
     number_rows = get_number_rows(ai_settings, ship.rect.height, alien.rect.height)
 
@@ -65,7 +72,9 @@ def create_fleet(ai_settings, screen, ship, aliens):
 def create_alien(ai_settings, screen, aliens, alien_number, row_number):
     """Utworzenie obcego i umieszczenie go w rzedzie"""
     alien = Alien(ai_settings, screen)
-    alien.rect.x = alien.rect.width + 2 * alien.rect.width * alien_number
+    alien_width = alien.rect.width
+    alien.x = alien_width + 2 * alien_width * alien_number
+    alien.rect.x = alien.x
     alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
     aliens.add(alien)
 
@@ -80,6 +89,30 @@ def get_number_rows(ai_settings, ship_height, alien_height):
     avalible_space_y = (ai_settings.screen_height - (3 * alien_height) - ship_height)
     number_rows = int(avalible_space_y / (2 * alien_height))
     return number_rows
+
+
+#poruszanie sie floty
+def check_fleet_edges(ai_settings, aliens):
+    """odpowiednia reakcja, gdy obcy dotrze do krawedzi ekranu"""
+    for alien in aliens.sprites():
+        if alien.check_edges():
+            change_fleet_direction(ai_settings, aliens)
+            break
+
+def change_fleet_direction(ai_settings, aliens):
+    """Przesuniecie calej floty w dol i zmiana kierunku, w ktorym sie porusza"""
+    for alien in aliens.sprites():
+        alien.rect.y += ai_settings.fleet_drop_speed
+    ai_settings.fleet_direction *= -1
+
+
+
+
+def update_aliens(ai_settings, aliens):
+    """sprawdzenie, czy flota znajduje sie przy krawedzi ekranu,
+    a nastepnie uaktualnienie położenia wszystkich obcych we flocie"""
+    check_fleet_edges(ai_settings, aliens)
+    aliens.update()
 
 def update_screen(ai_settings, screen, ship, aliens, bullets):
     #uaktualnienie obrazow oraz ich wyswietlenie

@@ -20,6 +20,20 @@ class Alien(Sprite):
         #faktyczne polozenie x
         self.x = float(self.rect.x)
 
+    def check_edges(self):
+        """zwraca wartosc True, jeśli obcy znajduje sie przy krawędzi ekranu"""
+        screen_rect = self.screen.get_rect()
+        if self.rect.right >= screen_rect.right:
+            return True
+        elif self.rect.left <= 0:
+            return True
+
+    def update(self):
+        """przesuniecie obcego w prawo lub lewo"""
+        #dzieki takiemu zapisowi gra jest plynniejsza. selfx - float, selfrectx - int
+        self.x += (self.ai_settings.alien_speed_factor * self.ai_settings.fleet_direction)
+        self.rect.x = self.x
+
     def blitme(self):
         #wyswietlanie obcego w jego aktualnym polozeniu
         self.screen.blit(self.image, self.rect)
