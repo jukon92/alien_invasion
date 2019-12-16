@@ -36,7 +36,7 @@ def run_game():
         ship.update()
 
         #poruszanie, kasowanie pociskow
-        gf.update_bullets(bullets)
+        gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
 
         #poruszanie obcych
         gf.update_aliens(ai_settings, aliens)
