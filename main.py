@@ -4,7 +4,7 @@ from ship import Ship
 import game_functions as gf
 from pygame.sprite import Group
 from alien import Alien
-
+from game_stats import GameStats
 
 
 def run_game():
@@ -23,23 +23,22 @@ def run_game():
     aliens=Group()
     #tworzenie floty obcych
     gf.create_fleet(ai_settings, screen, ship, aliens)
-
     #utworzenie grupy do przechowywania pociskow
     bullets=Group()
-
+    #egzemplarz przechowywania danych statystycznych
+    stats = GameStats(ai_settings)
 
     while True:
         #oczekiwanie na naciśnięcie klawisza
         gf.check_events(ai_settings, screen, ship, bullets)
 
-        #poruszanie sie
-        ship.update()
-
-        #poruszanie, kasowanie pociskow
-        gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
-
-        #poruszanie obcych
-        gf.update_aliens(ai_settings, aliens)
+        if stats.game_active:
+            #poruszanie sie
+            ship.update()
+            #poruszanie, kasowanie pociskow
+            gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
+            #poruszanie obcych
+            gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
 
         #aktualizacja i wyswietlenie ekranu
         gf.update_screen(ai_settings, screen, ship, aliens, bullets)

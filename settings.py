@@ -12,9 +12,10 @@ class Settings():
         self.bullet_height = 15
         self.bullet_color = 60, 60, 60
         self.bullets_allowed = 3
-        #predkosc statku
+        #statek
         self.ship_speed_factor = 1.5
+        self.ships_left = 3
         #obcy
         self.alien_speed_factor = 1
-        self.fleet_drop_speed = 10
+        self.fleet_drop_speed = 100
         self.fleet_direction = 1
