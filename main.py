@@ -5,6 +5,7 @@ import game_functions as gf
 from pygame.sprite import Group
 from alien import Alien
 from game_stats import GameStats
+from button import Button
 
 
 def run_game():
@@ -27,10 +28,12 @@ def run_game():
     bullets=Group()
     #egzemplarz przechowywania danych statystycznych
     stats = GameStats(ai_settings)
+    #przycisk gra
+    play_button = Button(ai_settings, screen, "Gra")
 
     while True:
         #oczekiwanie na naciśnięcie klawisza
-        gf.check_events(ai_settings, screen, ship, bullets)
+        gf.check_events(ai_settings, screen, stats, play_button, ship, aliens, bullets)
 
         if stats.game_active:
             #poruszanie sie
@@ -41,7 +44,7 @@ def run_game():
             gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
 
         #aktualizacja i wyswietlenie ekranu
-        gf.update_screen(ai_settings, screen, ship, aliens, bullets)
+        gf.update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button)
 
 
 
